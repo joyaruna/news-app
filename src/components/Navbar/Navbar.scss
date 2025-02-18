@@ -1,0 +1,110 @@
+.navbar {
+    background-color: #080c67;
+    padding: .5rem 1rem;
+    
+
+    .navbar-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+
+        .navbar-logo {
+            .brand-logo {
+                width: 60px;
+                height: 60px;
+                background-color: #FFF;
+                border-radius: 50px;
+            }
+        }
+
+        .brand-tagline {
+            font-family: 'merriweather-black';
+            color: #FFF;
+            font-size: .9rem;
+        }
+
+        .menu-button {
+            background: none;
+            border: none;
+            color: #FFF;
+            font-size: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            flex-direction: row;
+            list-style-type: none;
+
+            .nav-link {
+                margin-right: 3rem;
+                text-decoration: none;
+                color: #FFF;
+                font-family: 'merriweather-bold';
+                font-size: .9rem;
+                background: none;
+                border: none;
+                cursor: pointer;
+            }
+
+            .nav-link-last {
+                text-decoration: none;
+                color: #FFF;
+                font-family: 'merriweather-bold';
+                font-size: .9rem;
+                background: none;
+                border: none;
+                cursor: pointer;
+            }
+        }
+
+        .search-container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            border: 1px solid #ccc;
+            padding: .3rem .5rem;
+            border-radius: 50px;
+
+            .search-box {
+                border: none;
+                margin-left: .5rem;
+                background: none;
+                outline: none;
+                color: #FFF;
+                font-family: 'opensans-medium';
+                font-size: .8rem;
+            }
+        }
+
+        .filter-container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+
+            .filter-link {
+                text-decoration: none;
+                color: #FFF;
+                font-family: 'merriweather-bold';
+                font-size: .9rem;
+                margin-left: .5rem;
+            }
+        }
+    }
+
+    .mobile-menu {
+        list-style-type: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        li {
+            margin-top: 1rem;
+            .mobile-menu-link {
+                text-decoration: none;
+                color: #FFF;
+                font-family: 'merriweather-bold';
+                font-size: .9rem;
+            }
+        }
+    }
+}

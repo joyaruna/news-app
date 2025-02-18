@@ -1,3 +1,64 @@
+@font-face {
+  font-family: 'merriweather-black';
+  src: local('merriweather-black'), url(./assets/fonts/Merriweather-Black.ttf) format('opentype');
+}
+@font-face {
+  font-family: 'merriweather-blackitalic';
+  src: local('merriweather-blackitalic'), url(./assets/fonts/Merriweather-BlackItalic.ttf) format('opentype');
+}
+@font-face {
+  font-family: 'merriweather-bold';
+  src: local('merriweather-bold'), url(./assets/fonts/Merriweather-Bold.ttf) format('opentype');
+}
+@font-face {
+  font-family: 'merriweather-bolditalic';
+  src: local('merriweather-bolditalic'), url(./assets/fonts/Merriweather-BoldItalic.ttf) format('opentype');
+}
+@font-face {
+  font-family: 'merriweather-italic';
+  src: local('merriweather-italic'), url(./assets/fonts/Merriweather-Italic.ttf) format('opentype');
+}
+@font-face {
+  font-family: 'merriweather-light';
+  src: local('merriweather-light'), url(./assets/fonts/Merriweather-Light.ttf) format('opentype');
+}
+@font-face {
+  font-family: 'merriweather-lightitalic';
+  src: local('merriweather-lightitalic'), url(./assets/fonts/Merriweather-LightItalic.ttf) format('opentype');
+}
+@font-face {
+  font-family: 'merriweather-regular';
+  src: local('merriweather-regular'), url(./assets/fonts/Merriweather-Regular.ttf) format('opentype');
+}
+@font-face {
+  font-family: 'opensans-bold';
+  src: local('opensans-bold'), url(./assets/fonts/OpenSans-Bold.ttf) format('opentype');
+}
+@font-face {
+  font-family: 'opensans-italic';
+  src: local('opensans-italic'), url(./assets/fonts/OpenSans-Italic.ttf) format('opentype');
+}
+@font-face {
+  font-family: 'opensans-bolditalic';
+  src: local('opensans-bolditalic'), url(./assets/fonts/OpenSans-BoldItalic.ttf) format('opentype');
+}
+@font-face {
+  font-family: 'opensans-light';
+  src: local('opensans-light'), url(./assets/fonts/OpenSans-Light.ttf) format('opentype');
+}
+@font-face {
+  font-family: 'opensans-medium';
+  src: local('opensans-medium'), url(./assets/fonts/OpenSans-Medium.ttf) format('opentype');
+}
+@font-face {
+  font-family: 'opensans-regular';
+  src: local('opensans-regular'), url(./assets/fonts/OpenSans-Regular.ttf) format('opentype');
+}
+@font-face {
+  font-family: 'opensans-semibold';
+  src: local('opensans-semibold'), url(./assets/fonts/OpenSans-SemiBold.ttf) format('opentype');
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
