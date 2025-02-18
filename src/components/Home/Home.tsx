@@ -1,11 +1,10 @@
 import React, { useEffect } from "react";
 import { useAppDispatch, useTypedSelector } from "../../store";
 import { getTrendingArticles, getTrendingNews } from "../../reducers/NewsSlice";
-import "./Home.scss"; // Import the CSS file
+import "./Home.scss";
 import { useScreenSize } from "../../utils/useScreenSize";
 import { FaNewspaper } from "react-icons/fa";
 
-// Define the structure of an article/news item
 interface News {
     source: { id: string | null; name: string };
     author: string | null;
@@ -17,7 +16,6 @@ interface News {
     content: string;
 }
 
-// Define props for child components
 interface AllTrendingNewsProps {
     trendingNews: News[];
 }

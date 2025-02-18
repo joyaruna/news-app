@@ -3,33 +3,32 @@ import { Link } from "react-router-dom";
 import { FaSearch, FaFilter } from "react-icons/fa";
 import { useScreenSize } from "../../utils/useScreenSize";
 import { motion } from "framer-motion";
-import "./Navbar.scss"; // Import the CSS file
+import "./Navbar.scss";
 
 const Navbar: React.FC = () => {
-    const isMobile = useScreenSize();
-    const [isOpen, setIsOpen] = useState(false);
-    const [categoryOpen, setCategoryOpen] = useState(false);
-    const [sourceOpen, setSourceOpen] = useState(false);
-    const [authorOpen, setauthorOpen] = useState(false);
-
-  
+    const isMobile: boolean = useScreenSize();
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [categoryOpen, setCategoryOpen] = useState<boolean>(false);
+    const [sourceOpen, setSourceOpen] = useState<boolean>(false);
+    const [authorOpen, setAuthorOpen] = useState<boolean>(false);
 
     const viewCategories = () => {
-        setCategoryOpen((!categoryOpen))
-        setSourceOpen(false)
-        setauthorOpen(false)
-    }
-    const viewSources = () => {
-        setSourceOpen((!sourceOpen))
-        setCategoryOpen(false)
-        setauthorOpen(false)
-    }
-    const viewAuthors = () => {
-        setauthorOpen((!authorOpen))
-        setCategoryOpen(false)
-        setSourceOpen(false)
-    }
+        setCategoryOpen(!categoryOpen);
+        setSourceOpen(false);
+        setAuthorOpen(false);
+    };
 
+    const viewSources = () => {
+        setSourceOpen(!sourceOpen);
+        setCategoryOpen(false);
+        setAuthorOpen(false);
+    };
+
+    const viewAuthors = () => {
+        setAuthorOpen(!authorOpen);
+        setCategoryOpen(false);
+        setSourceOpen(false);
+    };
 
     return (
         <nav className="navbar">
@@ -39,23 +38,14 @@ const Navbar: React.FC = () => {
                     <img src="/images/logo.png" alt="logo" className="brand-logo" />
                 </Link>
 
-                {/* brand tagline */}
-                {isMobile ?
-                    <motion.div
-                        className="brand-tagline"
-                        animate={{ opacity: [1, 0, 1] }}
-                        transition={{ duration: 1, repeat: Infinity, ease: "easeInOut" }}
-                    >NewsPulse
-                    </motion.div>
-                    :
-                    <motion.div
-                        className="brand-tagline"
-                        animate={{ opacity: [1, 0, 1] }}
-                        transition={{ duration: 1, repeat: Infinity, ease: "easeInOut" }}
-                    >
-                        NewsPulse – Breaking Stories, Beating Fast. 🚀
-                    </motion.div>
-                }
+                {/* Brand tagline */}
+                <motion.div
+                    className="brand-tagline"
+                    animate={{ opacity: [1, 0, 1] }}
+                    transition={{ duration: 1, repeat: Infinity, ease: "easeInOut" }}
+                >
+                    {isMobile ? "NewsPulse" : "NewsPulse – Breaking Stories, Beating Fast. 🚀"}
+                </motion.div>
 
                 {/* Mobile Menu Button */}
                 {isMobile ? (
@@ -73,18 +63,18 @@ const Navbar: React.FC = () => {
 
                         {/* Keyword search */}
                         <div className="search-container">
-                            <FaSearch color="#fff" />
+                            <FaSearch color="#fff" size={12} />
                             <input
-                                id='search'
+                                id="search"
                                 type="text"
-                                className='search-box'
-                                placeholder="search by keyword"
+                                className="search-box"
+                                placeholder="Search by keyword"
                             />
                         </div>
 
                         {/* Filter by date */}
                         <Link to="/" className="filter-container">
-                            <FaFilter color="#fff" />
+                            <FaFilter color="#fff" size={10} />
                             <span className="filter-link">Filter by date</span>
                         </Link>
                     </>
@@ -100,34 +90,28 @@ const Navbar: React.FC = () => {
                     <li><Link to="/contact" className="mobile-menu-link">Contact</Link></li>
                 </ul>
             )}
-            {/* categories */}
-            {categoryOpen && (
-                <ul className="mobile-menu">
-                    <li><Link to="/" className="mobile-menu-link">Sport</Link></li>
-                    <li><Link to="/about" className="mobile-menu-link">Entertainment</Link></li>
-                    <li><Link to="/services" className="mobile-menu-link">Politics</Link></li>
-                    <li><Link to="/contact" className="mobile-menu-link">All</Link></li>
-                </ul>
-            )}
-            {/* sources */}
-            {sourceOpen && (
-                <ul className="mobile-menu">
-                    <li><Link to="/" className="mobile-menu-link">Sport</Link></li>
-                    <li><Link to="/about" className="mobile-menu-link">Entertainment</Link></li>
-                    <li><Link to="/services" className="mobile-menu-link">Politics</Link></li>
-                    <li><Link to="/contact" className="mobile-menu-link">All</Link></li>
-                </ul>
-            )}
-            {/* authors */}
-            {authorOpen && (
-                <ul className="mobile-menu">
-                    <li><Link to="/" className="mobile-menu-link">Sport</Link></li>
-                    <li><Link to="/about" className="mobile-menu-link">Entertainment</Link></li>
-                    <li><Link to="/services" className="mobile-menu-link">Politics</Link></li>
-                    <li><Link to="/contact" className="mobile-menu-link">All</Link></li>
-                </ul>
-            )}
+
+            {/* Dynamic Menus */}
+            {categoryOpen && <DropdownMenu />}
+            {sourceOpen && <DropdownMenu />}
+            {authorOpen && <DropdownMenu />}
         </nav>
+    );
+};
+
+// Reusable Dropdown Menu Component
+interface DropdownMenuProps {
+    // title: string;
+}
+
+const DropdownMenu: React.FC<DropdownMenuProps> = () => {
+    return (
+        <ul className="mobile-menu">
+            <li><Link to="/" className="mobile-menu-link">Sport</Link></li>
+            <li><Link to="/about" className="mobile-menu-link">Entertainment</Link></li>
+            <li><Link to="/services" className="mobile-menu-link">Politics</Link></li>
+            <li><Link to="/contact" className="mobile-menu-link">General</Link></li>
+        </ul>
     );
 };
 

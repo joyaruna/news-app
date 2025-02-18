@@ -59,6 +59,10 @@
   src: local('opensans-semibold'), url(./assets/fonts/OpenSans-SemiBold.ttf) format('opentype');
 }
 
+html, body {
+  overflow-x: hidden;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
