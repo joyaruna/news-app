@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useAppDispatch, useTypedSelector } from "../../store";
-import { getTrendingArticles, getTrendingNews } from "../../reducers/NewsSlice";
+import { getCategories, getTrendingArticles, getTrendingNews } from "../../reducers/NewsSlice";
 import "./Home.scss";
 import { useScreenSize } from "../../utils/useScreenSize";
 import { FaNewspaper } from "react-icons/fa";
@@ -44,10 +44,11 @@ const Home: React.FC = () => {
     useEffect(() => {
         dispatch(getTrendingNews());
         dispatch(getTrendingArticles());
+        dispatch(getCategories());
     }, [dispatch]);
 
-    console.log(trendingArticles, 'here');
-    console.log(trendingNews, 'down');
+    // console.log(trendingArticles, 'here');
+    // console.log(trendingNews, 'down');
 
     return (
         <div className={isMobile ? "home-mobile-container" : "home-container"}>

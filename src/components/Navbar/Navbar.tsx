@@ -1,16 +1,23 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { FaSearch, FaFilter } from "react-icons/fa";
 import { useScreenSize } from "../../utils/useScreenSize";
 import { motion } from "framer-motion";
 import "./Navbar.scss";
+import { useAppDispatch, useTypedSelector } from "../../store";
+import { getCategories, getSources } from "../../reducers/NewsSlice";
+import UniqueSections from "../UniqueCategories/UniqueCategories";
 
 const Navbar: React.FC = () => {
+    const navigate = useNavigate();
+    const dispatch = useAppDispatch();
     const isMobile: boolean = useScreenSize();
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [categoryOpen, setCategoryOpen] = useState<boolean>(false);
     const [sourceOpen, setSourceOpen] = useState<boolean>(false);
     const [authorOpen, setAuthorOpen] = useState<boolean>(false);
+    const { categories } = useTypedSelector((state) => state.news);
+    const source  = useTypedSelector((state) => state.news.source);
 
     const viewCategories = () => {
         setCategoryOpen(!categoryOpen);
@@ -29,6 +36,17 @@ const Navbar: React.FC = () => {
         setCategoryOpen(false);
         setSourceOpen(false);
     };
+    const returnToHome = () => {
+        setAuthorOpen(false);
+        setCategoryOpen(false);
+        setSourceOpen(false);
+        navigate("/"); // Navigate back to home
+    };
+
+    useEffect(() => {
+        dispatch(getCategories());
+        dispatch(getSources());
+    }, [dispatch]);
 
     return (
         <nav className="navbar">
@@ -55,7 +73,7 @@ const Navbar: React.FC = () => {
                 ) : (
                     <>
                         <ul className="nav-links">
-                            <li><Link to="/" className="nav-link">Home</Link></li>
+                            <li><button className="nav-link" onClick={returnToHome}>Home</button></li>
                             <li><button className="nav-link" onClick={viewCategories}>Categories</button></li>
                             <li><button className="nav-link" onClick={viewSources}>Sources</button></li>
                             <li><button className="nav-link-last" onClick={viewAuthors}>Authors</button></li>
@@ -92,27 +110,12 @@ const Navbar: React.FC = () => {
             )}
 
             {/* Dynamic Menus */}
-            {categoryOpen && <DropdownMenu />}
-            {sourceOpen && <DropdownMenu />}
-            {authorOpen && <DropdownMenu />}
+            {categoryOpen && <UniqueSections categories={categories} view="category" />}
+            {sourceOpen && <UniqueSections categories={source} view="source" />}
+            {authorOpen && <UniqueSections categories={categories} view="author" />}
         </nav>
     );
 };
 
-// Reusable Dropdown Menu Component
-interface DropdownMenuProps {
-    // title: string;
-}
-
-const DropdownMenu: React.FC<DropdownMenuProps> = () => {
-    return (
-        <ul className="mobile-menu">
-            <li><Link to="/" className="mobile-menu-link">Sport</Link></li>
-            <li><Link to="/about" className="mobile-menu-link">Entertainment</Link></li>
-            <li><Link to="/services" className="mobile-menu-link">Politics</Link></li>
-            <li><Link to="/contact" className="mobile-menu-link">General</Link></li>
-        </ul>
-    );
-};
 
 export default Navbar;

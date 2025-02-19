@@ -4,6 +4,8 @@ import axios from 'axios';
 interface TrendingNewsState {
     trendingNews: any[]; 
     trendingArticles: any[],
+    categories: any[],
+    source: any[],
     loading: boolean;
     error: string | null;
 }
@@ -11,6 +13,8 @@ interface TrendingNewsState {
 const initialState: TrendingNewsState = {
     trendingNews: [],
     trendingArticles: [],
+    categories:[],
+    source: [],
     loading: false,
     error: null,
 };
@@ -25,7 +29,7 @@ export const getTrendingNews = createAsyncThunk<
         const apiKey = 'ff5cc66ab5f6493e80ed1134b6fb8548'; // API Key
         try {
             const response = await axios.get(`https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=${apiKey}`);
-            console.log(response.data)
+            // console.log(response.data)
             return response.data;
         } catch (error) {
             let errorMessage = 'Something went wrong';
@@ -38,26 +42,72 @@ export const getTrendingNews = createAsyncThunk<
 );
 
 export const getTrendingArticles = createAsyncThunk<
-    any, // Response type (adjust if needed)
-    void, // Argument type (no arguments in this case)
-    { rejectValue: string } // Define error type for `rejectWithValue`
+    any,
+    void, 
+    { rejectValue: string }
 >(
     'news/getTrendingArticles',
     async (_, { rejectWithValue }) => {
         const apiKey = 'ff5cc66ab5f6493e80ed1134b6fb8548'; // API Key
         try {
             const response = await axios.get(`https://newsapi.org/v2/everything?domains=wsj.com&apiKey=${apiKey}`);
-            console.log(response.data)
+            // console.log(response.data)
             return response.data;
         } catch (error) {
             let errorMessage = 'Something went wrong';
             if (axios.isAxiosError(error) && error.response) {
                 errorMessage = error.response.data?.message || 'API request failed';
             }
-            return rejectWithValue(errorMessage); // Now correctly typed
+            return rejectWithValue(errorMessage); 
         }
     }
 );
+
+export const getSources = createAsyncThunk<
+    any,
+    void, 
+    { rejectValue: string }
+>(
+    'news/getSources',
+    async (_, { rejectWithValue }) => {
+        const apiKey = '5UamDPBD026PrbWJXdzlCdUXSXKYa9IzjJ57AEaa'; // API Key
+        try {
+            const response = await axios.get(`https://api.thenewsapi.com/v1/news/top?api_token=${apiKey}`);
+            // console.log(response.data.data)
+            return response.data.data;
+        } catch (error) {
+            let errorMessage = 'Something went wrong';
+            if (axios.isAxiosError(error) && error.response) {
+                errorMessage = error.response.data?.message || 'API request failed';
+            }
+            return rejectWithValue(errorMessage); 
+        }
+    }
+);
+
+
+export const getCategories = createAsyncThunk<
+    any,
+    void,
+    { rejectValue: string }
+>(
+    "news/getCategories",
+    async (_, { rejectWithValue }) => {
+        const apiKey = 'ihOze5nPiB0Z5XUInRe1yisNc7AgxGZq'; // API Key
+        try {
+            const response = await axios.get(`https://api.nytimes.com/svc/topstories/v2/business.json?api-key=${apiKey}`);
+            // console.log(response.data.results)
+            return response.data.results;
+        } catch (error) {
+            let errorMessage = 'Something went wrong';
+            if (axios.isAxiosError(error) && error.response) {
+                errorMessage = error.response.data?.message || 'API request failed';
+            }
+            return rejectWithValue(errorMessage); 
+        }
+    }
+);
+
 
 export const NewsSlice = createSlice({
     name: 'news',
@@ -68,6 +118,12 @@ export const NewsSlice = createSlice({
         },
         setTrendingArticles: (state, action: PayloadAction<any[]>) => {
             state.trendingNews = action.payload;
+        },
+        setCategories: (state, action: PayloadAction<any[]>) => {
+            state.categories = action.payload;
+        },
+        setSources: (state, action: PayloadAction<any[]>) => {
+            state.source = action.payload;
         },
     },
     extraReducers: (builder) => {
@@ -95,9 +151,34 @@ export const NewsSlice = createSlice({
             .addCase(getTrendingArticles.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload as string; // Type assertion to fix `unknown` issue
+            })
+            .addCase(getCategories.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(getCategories.fulfilled, (state, action: PayloadAction<any>) => {
+                state.loading = false;
+                state.categories = action.payload || [];
+            })
+            .addCase(getCategories.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload as string; // Type assertion to fix `unknown` issue
+            })
+            .addCase(getSources.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(getSources.fulfilled, (state, action: PayloadAction<any>) => {
+                state.loading = false;
+                state.source = action.payload || [];
+                // console.log(action.payload);
+            })
+            .addCase(getSources.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload as string; // Type assertion to fix `unknown` issue
             });
     },
 });
 
-export const { setTrendingNews, setTrendingArticles } = NewsSlice.actions;
+export const { setTrendingNews, setTrendingArticles, setCategories, setSources } = NewsSlice.actions;
 export default NewsSlice.reducer;
