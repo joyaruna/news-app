@@ -8,6 +8,12 @@ import { useAppDispatch, useTypedSelector } from "../../store";
 import { getCategories, getSources } from "../../reducers/NewsSlice";
 import UniqueSections from "../UniqueCategories/UniqueCategories";
 
+interface Category {
+    section?: string;
+    byline?: string;
+    source?: string;
+}
+
 const Navbar: React.FC = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
@@ -17,7 +23,12 @@ const Navbar: React.FC = () => {
     const [sourceOpen, setSourceOpen] = useState<boolean>(false);
     const [authorOpen, setAuthorOpen] = useState<boolean>(false);
     const { categories } = useTypedSelector((state) => state.news);
-    const source  = useTypedSelector((state) => state.news.source);
+    const source = useTypedSelector((state) => state.news.source);
+    // console.log('tthis is source', source)
+    const [filteredCategories, setFilteredCategories] = useState<Category[]>([]);
+    const [filteredAuthors, setFilteredAuthors] = useState<Category[]>([]);
+    console.log(filteredCategories, filteredAuthors)
+
 
     const viewCategories = () => {
         setCategoryOpen(!categoryOpen);
@@ -42,6 +53,22 @@ const Navbar: React.FC = () => {
         setSourceOpen(false);
         navigate("/"); // Navigate back to home
     };
+
+
+    const handleCategorySelect = (selectedItem: string) => {
+        const filteredItems = categories.filter(category => category.section === selectedItem);
+        setFilteredCategories(filteredItems);
+        navigate("/categories", { state: { filteredCategories: filteredItems } });
+    };
+
+    const handleAuthorSelect = (selectedItem: string) => {
+        console.log('clicked')
+        const filteredItems = categories.filter(category => category.byline === selectedItem);
+        setFilteredAuthors(filteredItems);
+        navigate("/authors", { state: { filteredAuthorItems: filteredItems } });
+        console.log("Filtered Items:", filteredItems);
+    };
+
 
     useEffect(() => {
         dispatch(getCategories());
@@ -110,9 +137,9 @@ const Navbar: React.FC = () => {
             )}
 
             {/* Dynamic Menus */}
-            {categoryOpen && <UniqueSections categories={categories} view="category" />}
+            {categoryOpen && <UniqueSections categories={categories} view="category" onSelect={handleCategorySelect} />}
             {sourceOpen && <UniqueSections categories={source} view="source" />}
-            {authorOpen && <UniqueSections categories={categories} view="author" />}
+            {authorOpen && <UniqueSections categories={categories} view="author" onSelect={handleAuthorSelect} />}
         </nav>
     );
 };

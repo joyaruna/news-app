@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useAppDispatch, useTypedSelector } from "../../store";
 import { getCategories, getTrendingArticles, getTrendingNews } from "../../reducers/NewsSlice";
 import "./Home.scss";
@@ -47,9 +47,6 @@ const Home: React.FC = () => {
         dispatch(getCategories());
     }, [dispatch]);
 
-    // console.log(trendingArticles, 'here');
-    // console.log(trendingNews, 'down');
-
     return (
         <div className={isMobile ? "home-mobile-container" : "home-container"}>
             <AllTrendingNews trendingNews={trendingNews} />
@@ -69,6 +66,11 @@ const AllTrendingNews: React.FC<AllTrendingNewsProps> = ({ trendingNews }) => {
 };
 
 const TrendingNews: React.FC<TrendingNewsProps> = ({ news }) => {
+    const [readMore, setReadMore] = useState(false);
+
+    const toggleReadMoreButtton = () => {
+        setReadMore(!readMore)
+    }
     return (
         <div className="trending-news-container">
             <span className="news-title">{news.title}</span>
@@ -81,7 +83,13 @@ const TrendingNews: React.FC<TrendingNewsProps> = ({ news }) => {
             )}
             <span className="author-name">Author: {news.author || "Unknown"}</span>
             <span className="author-name">Source: {news.source.name}</span>
-            <span className="news-description">{news.description} Read more.....</span>
+            {/* view more content of the news */}
+            {readMore ?
+                <span className="news-description">{news.content}</span>
+                :
+                <span className="news-description">{news.description}</span>
+            }
+            <button onClick={toggleReadMoreButtton} className="open-button">{readMore ? 'View Less' : 'Read more...'}</button>
         </div>
     );
 };
@@ -109,6 +117,11 @@ const TrendingArticles: React.FC<TrendingArticlesProps> = ({ trendingArticles })
 };
 
 const TrendingArticle: React.FC<TrendingArticleProps> = ({ article }) => {
+    const [viewMore, setViewMore] = useState(false);
+
+    const toggleViewMoreButtton = () => {
+        setViewMore(!viewMore)
+    }
     return (
         <div className="trending-article-container">
             <span className="article-title">{article.title}</span>
@@ -120,7 +133,15 @@ const TrendingArticle: React.FC<TrendingArticleProps> = ({ article }) => {
                 />
             )}
             <span className="author-name">Source: {article.source.name}</span>
-            <span className="news-description">{article.description} Read more.....</span>
+            <span className="news-description">{article.description}</span>
+
+            {/* view more content of the article */}
+            {viewMore &&
+                <span className="news-description">{article.content}</span>
+            }
+            <button onClick={toggleViewMoreButtton} className="more-button">{viewMore ? 'View Less' : 'Read more...'}</button>
+
+
         </div>
     );
 };

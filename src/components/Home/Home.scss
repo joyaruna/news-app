@@ -27,6 +27,16 @@
                 font-size: .9rem;
                 color: red;
             }
+            .open-button {
+                background-color: #fff;
+                border: 1px solid #080c67;
+                border-radius: 2px;
+                margin-top: .5rem;
+                color: #080c67;
+                font-family: 'opensans-italic';
+                cursor: pointer;
+                font-size: .7rem;
+            }
         }
     }
     .articles-section {
@@ -65,6 +75,15 @@
                     font-family: 'opensans-italic';
                     font-size: .7rem;
                     color: red;
+                }
+                .more-button {
+                    background-color: #fff;
+                    border: none;
+                    color: #080c67;
+                    font-family: 'opensans-italic';
+                    cursor: pointer;
+                    font-size: .7rem;
+                    margin-left: auto;
                 }
             }
         }

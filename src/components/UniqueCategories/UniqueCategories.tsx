@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import "./UniqueCategories.scss";
 
 interface Category {
@@ -11,9 +10,10 @@ interface Category {
 interface UniqueSectionsProps {
     categories: Category[];
     view: "category" | "author" | "source"; // Determines what to display
+    onSelect?: (selectedItem: string) => void; // Pass selected item
 }
 
-const UniqueSections: React.FC<UniqueSectionsProps> = ({ categories, view }) => {
+const UniqueSections: React.FC<UniqueSectionsProps> = ({ categories, view, onSelect }) => {
     // Determine which field to use based on the 'view' prop
     const uniqueItems = Array.from(
         new Set(
@@ -24,7 +24,7 @@ const UniqueSections: React.FC<UniqueSectionsProps> = ({ categories, view }) => 
                 if (view === "source") return category.source;
                 return null; // Handle unexpected cases
             })
-                .filter(Boolean) // Remove undefined or null values
+            .filter(Boolean) as string[]
         )
     ).slice(0, 12); // Limit to 12 items
 
@@ -34,7 +34,7 @@ const UniqueSections: React.FC<UniqueSectionsProps> = ({ categories, view }) => 
                 <ul className="categories-menu">
                     {uniqueItems.map((item) => (
                         <li key={item}>
-                            <Link to="/services" className="category-link">{item}</Link>
+                            <button className="category-link"  onClick={() => onSelect?.(item)}>{item}</button>
                         </li>
                     ))}
                 </ul>
