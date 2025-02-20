@@ -17,7 +17,6 @@ const Home: React.FC = () => {
         dispatch(getTrendingNews());
         dispatch(getTrendingArticles());
         dispatch(getCategories());
-        // dispatch(getSources());
     }, [dispatch]);
 
     // Filter news by search query
@@ -29,8 +28,8 @@ const Home: React.FC = () => {
         <div className="home-main-container">
             <SearchBar searchQuery={searchQuery} onSearchChange={setSearchQuery} />
             <div className={isMobile ? "home-mobile-container" : "home-container"}>
-                <AllTrendingNews trendingNews={filteredNews} />
-                <ArticlesSection trendingArticles={trendingArticles} />
+                    <AllTrendingNews trendingNews={filteredNews} />
+                    <ArticlesSection trendingArticles={trendingArticles} />
             </div>
         </div>
     );
@@ -63,6 +62,7 @@ const NewsCard: React.FC<NewsCardProps> = ({ news }) => {
         </div>
     );
 };
+
 
 // All Trending News
 const AllTrendingNews: React.FC<{ trendingNews: News[] }> = ({ trendingNews }) => (

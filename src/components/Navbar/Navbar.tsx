@@ -90,11 +90,14 @@ const Navbar: React.FC = () => {
                             <li><button className="nav-link-last" onClick={() => toggleMenu("author")}>Authors</button></li>
                         </ul>
 
-                        {/* Filter by Date */}
-                        <Link to="/" className="filter-container">
-                            <FaFilter color="#fff" size={10} />
-                            <span className="filter-link">Filter by date</span>
-                        </Link>
+                        <div className="auth-container ">
+                            <Link to="/">
+                                <span className="auth-link">Login</span>
+                            </Link>
+                            <Link to="/">
+                                <span className="auth-link">Register</span>
+                            </Link>
+                        </div>
                     </>
                 )}
             </div>
@@ -106,6 +109,8 @@ const Navbar: React.FC = () => {
                     <li><button className="mobile-menu-link" onClick={() => toggleMenu("category")}>Categories</button></li>
                     <li><button className="mobile-menu-link" onClick={() => toggleMenu("source")}>Sources</button></li>
                     <li><button className="mobile-menu-link" onClick={() => toggleMenu("author")}>Authors</button></li>
+                    <li><button className="mobile-menu-link" onClick={returnToHome}>Login</button></li>
+                    <li><button className="mobile-menu-link" onClick={returnToHome}>Register</button></li>
                 </ul>
             )}
 
