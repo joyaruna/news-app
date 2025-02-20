@@ -4,37 +4,7 @@ import { getCategories, getTrendingArticles, getTrendingNews } from "../../reduc
 import "./Home.scss";
 import { useScreenSize } from "../../utils/useScreenSize";
 import { FaNewspaper } from "react-icons/fa";
-
-interface News {
-    source: { id: string | null; name: string };
-    author: string | null;
-    title: string;
-    description: string;
-    url: string;
-    urlToImage?: string;
-    publishedAt: string;
-    content: string;
-}
-
-interface AllTrendingNewsProps {
-    trendingNews: News[];
-}
-
-interface TrendingNewsProps {
-    news: News;
-}
-
-interface ArticlesSectionProps {
-    trendingArticles: News[];
-}
-
-interface TrendingArticlesProps {
-    trendingArticles: News[];
-}
-
-interface TrendingArticleProps {
-    article: News;
-}
+import { News } from "../../utils/categoryTypes";
 
 const Home: React.FC = () => {
     const isMobile = useScreenSize();
@@ -55,24 +25,17 @@ const Home: React.FC = () => {
     );
 };
 
-const AllTrendingNews: React.FC<AllTrendingNewsProps> = ({ trendingNews }) => {
-    return (
-        <div className="all-trending-news">
-            {trendingNews.map((news, i) => (
-                <TrendingNews key={i} news={news} />
-            ))}
-        </div>
-    );
-};
+// Reusable NewsCard for News & Articles
+interface NewsCardProps {
+    news: News;
+}
 
-const TrendingNews: React.FC<TrendingNewsProps> = ({ news }) => {
-    const [readMore, setReadMore] = useState(false);
+const NewsCard: React.FC<NewsCardProps> = ({ news }) => {
+    const [expanded, setExpanded] = useState(false);
+    const toggleExpand = () => setExpanded(!expanded);
 
-    const toggleReadMoreButtton = () => {
-        setReadMore(!readMore)
-    }
     return (
-        <div className="trending-news-container">
+        <div className="news-card">
             <span className="news-title">{news.title}</span>
             {news.urlToImage && (
                 <img
@@ -81,69 +44,36 @@ const TrendingNews: React.FC<TrendingNewsProps> = ({ news }) => {
                     style={{ width: "100%", maxWidth: "600px", height: "auto", borderRadius: "8px" }}
                 />
             )}
-            <span className="author-name">Author: {news.author || "Unknown"}</span>
-            <span className="author-name">Source: {news.source.name}</span>
-            {/* view more content of the news */}
-            {readMore ?
-                <span className="news-description">{news.content}</span>
-                :
-                <span className="news-description">{news.description}</span>
-            }
-            <button onClick={toggleReadMoreButtton} className="open-button">{readMore ? 'View Less' : 'Read more...'}</button>
+            {news.author && <span className="author-name">Author: {news.author}</span>}
+            {news.source?.name && <span className="author-name">Source: {news.source.name}</span>}
+            <span className="news-description">{expanded ? news.content : news.description}</span>
+            <button onClick={toggleExpand} className="expand-button">
+                {expanded ? "View Less" : "Read more..."}
+            </button>
         </div>
     );
 };
 
-const ArticlesSection: React.FC<ArticlesSectionProps> = ({ trendingArticles }) => {
-    return (
-        <div className="articles-section">
-            <div className="title-container">
-                <FaNewspaper size={20} />
-                <span className="main-title">Trending Articles </span>
-            </div>
-            <TrendingArticles trendingArticles={trendingArticles} />
+// All Trending News
+const AllTrendingNews: React.FC<{ trendingNews: News[] }> = ({ trendingNews }) => (
+    <div className="all-trending-news">
+        {trendingNews.map((news, i) => (
+            <NewsCard key={i} news={news} />
+        ))}
+    </div>
+);
+
+// Articles Section
+const ArticlesSection: React.FC<{ trendingArticles: News[] }> = ({ trendingArticles }) => (
+    <div className="articles-section">
+        <div className="title-container">
+            <FaNewspaper size={20} />
+            <span className="main-title">Trending Articles</span>
         </div>
-    );
-};
-
-const TrendingArticles: React.FC<TrendingArticlesProps> = ({ trendingArticles }) => {
-    return (
-        <div className="all-trending-articles">
-            {trendingArticles.map((article, i) => (
-                <TrendingArticle key={i} article={article} />
-            ))}
+        <div className="all-trending-articles ">
+        <AllTrendingNews trendingNews={trendingArticles} />
         </div>
-    );
-};
-
-const TrendingArticle: React.FC<TrendingArticleProps> = ({ article }) => {
-    const [viewMore, setViewMore] = useState(false);
-
-    const toggleViewMoreButtton = () => {
-        setViewMore(!viewMore)
-    }
-    return (
-        <div className="trending-article-container">
-            <span className="article-title">{article.title}</span>
-            {article.urlToImage && (
-                <img
-                    src={article.urlToImage}
-                    alt={article.title}
-                    style={{ width: "100%", maxWidth: "600px", height: "auto", borderRadius: "8px" }}
-                />
-            )}
-            <span className="author-name">Source: {article.source.name}</span>
-            <span className="news-description">{article.description}</span>
-
-            {/* view more content of the article */}
-            {viewMore &&
-                <span className="news-description">{article.content}</span>
-            }
-            <button onClick={toggleViewMoreButtton} className="more-button">{viewMore ? 'View Less' : 'Read more...'}</button>
-
-
-        </div>
-    );
-};
+    </div>
+);
 
 export default Home;

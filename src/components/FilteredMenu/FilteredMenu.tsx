@@ -16,7 +16,7 @@ const FilteredMenu: React.FC<FilteredMenuProps> = ({ category }) => {
           src={category.multimedia[0].url}
           alt={category.multimedia[0].caption || "News Image"}
           style={{
-            width: "30%",
+            width: "100%",
             maxWidth: "600px",
             height: "auto",
             borderRadius: "8px",

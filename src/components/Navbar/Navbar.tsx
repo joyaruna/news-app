@@ -7,87 +7,55 @@ import "./Navbar.scss";
 import { useAppDispatch, useTypedSelector } from "../../store";
 import { getCategories, getTrendingNews } from "../../reducers/NewsSlice";
 import UniqueSections from "../UniqueCategories/UniqueCategories";
-
-interface Category {
-    section?: string;
-    byline?: string;
-    source?: string;
-}
+import { Category } from "../../utils/categoryTypes";
 
 const Navbar: React.FC = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
-    const isMobile: boolean = useScreenSize();
-    const [isOpen, setIsOpen] = useState<boolean>(false);
-    const [categoryOpen, setCategoryOpen] = useState<boolean>(false);
-    const [sourceOpen, setSourceOpen] = useState<boolean>(false);
-    const [authorOpen, setAuthorOpen] = useState<boolean>(false);
-    const { categories } = useTypedSelector((state) => state.news);
-    const { trendingNews } = useTypedSelector((state) => state.news);
+    const isMobile = useScreenSize();
+    const { categories, trendingNews } = useTypedSelector((state) => state.news);
+    const [filteredItems, setFilteredItems] = useState<Category[]>([]);
+    const [menuState, setMenuState] = useState({
+        isOpen: false,
+        activeMenu: "",
+    });
 
-    // console.log('tthis is source', trendingNews)
-    const [filteredCategories, setFilteredCategories] = useState<Category[]>([]);
-    const [filteredAuthors, setFilteredAuthors] = useState<Category[]>([]);
-    const [filteredSource, setFilteredSource] = useState<Category[]>([]);
-    console.log(filteredCategories, filteredAuthors, filteredSource)
-
-
-    const viewCategories = () => {
-        setCategoryOpen(!categoryOpen);
-        setSourceOpen(false);
-        setAuthorOpen(false);
+    const toggleMenu = (menu: "category" | "source" | "author") => {
+        setMenuState((prev) => ({
+            isOpen: false,
+            activeMenu: prev.activeMenu === menu ? "" : menu,
+        }));
     };
 
-    const viewSources = () => {
-        setSourceOpen(!sourceOpen);
-        setCategoryOpen(false);
-        setAuthorOpen(false);
-    };
-
-    const viewAuthors = () => {
-        setAuthorOpen(!authorOpen);
-        setCategoryOpen(false);
-        setSourceOpen(false);
-    };
+    // Navigate back to home and close menus
     const returnToHome = () => {
-        setAuthorOpen(false);
-        setCategoryOpen(false);
-        setSourceOpen(false);
-        navigate("/"); // Navigate back to home
+        setMenuState({ isOpen: false, activeMenu: "" });
+        navigate("/");
     };
 
+    const handleSelect = (selectedItem: string, type: "category" | "author" | "source") => {
+        let filtered: Category[] = [];
 
-    const handleCategorySelect = (selectedItem: string) => {
-        const filteredItems = categories.filter(category => category.section === selectedItem);
-        setFilteredCategories(filteredItems);
-        navigate("/categories", { state: { filteredCategories: filteredItems } });
-    };
+        if (type === "category") {
+            filtered = categories.filter((item) => item.section === selectedItem);
+            navigate("/categories", { state: { filteredCategories: filtered } });
+        } else if (type === "author") {
+            filtered = categories.filter((item) => item.byline === selectedItem);
+            navigate("/authors", { state: { filteredAuthorItems: filtered } });
+        } else if (type === "source") {
+            filtered = trendingNews.filter((item) => {
+                const sourceName = typeof item.source === "object" ? item.source.name : item.source;
+                return sourceName === selectedItem;
+            });
+            navigate("/sources", { state: { filteredSourceItems: filtered } });
+        }
 
-    const handleAuthorSelect = (selectedItem: string) => {
-        const filteredItems = categories.filter(category => category.byline === selectedItem);
-        setFilteredAuthors(filteredItems);
-        navigate("/authors", { state: { filteredAuthorItems: filteredItems } });
-        console.log("Filtered Items:", filteredItems);
+        setFilteredItems(filtered);
     };
-    const handleSourceSelect = (selectedItem: string) => {
-        console.log("Clicked source:", selectedItem);    
-        const filteredItems = trendingNews.filter(category => {
-            const sourceName = typeof category.source === "object" ? category.source.name : category.source;
-            return sourceName === selectedItem;
-        });
-    
-        setFilteredSource(filteredItems);
-        navigate("/sources", { state: { filteredSourceItems: filteredItems } });
-    
-        console.log("Filtered Items:", filteredItems);
-    };
-    
-
 
     useEffect(() => {
         dispatch(getCategories());
         dispatch(getTrendingNews());
-        // dispatch(getSources());
     }, [dispatch]);
 
     return (
@@ -109,30 +77,25 @@ const Navbar: React.FC = () => {
 
                 {/* Mobile Menu Button */}
                 {isMobile ? (
-                    <button className="menu-button" onClick={() => setIsOpen(!isOpen)}>
-                        {isOpen ? "✖" : "☰"}
+                    <button className="menu-button" onClick={() => setMenuState({ isOpen: !menuState.isOpen, activeMenu: "" })}>
+                        {menuState.isOpen ? "✖" : "☰"}
                     </button>
                 ) : (
                     <>
                         <ul className="nav-links">
                             <li><button className="nav-link" onClick={returnToHome}>Home</button></li>
-                            <li><button className="nav-link" onClick={viewCategories}>Categories</button></li>
-                            <li><button className="nav-link" onClick={viewSources}>Sources</button></li>
-                            <li><button className="nav-link-last" onClick={viewAuthors}>Authors</button></li>
+                            <li><button className="nav-link" onClick={() => toggleMenu("category")}>Categories</button></li>
+                            <li><button className="nav-link" onClick={() => toggleMenu("source")}>Sources</button></li>
+                            <li><button className="nav-link-last" onClick={() => toggleMenu("author")}>Authors</button></li>
                         </ul>
 
-                        {/* Keyword search */}
+                        {/* Search Box */}
                         <div className="search-container">
                             <FaSearch color="#fff" size={12} />
-                            <input
-                                id="search"
-                                type="text"
-                                className="search-box"
-                                placeholder="Search by keyword"
-                            />
+                            <input id="search" type="text" className="search-box" placeholder="Search by keyword" />
                         </div>
 
-                        {/* Filter by date */}
+                        {/* Filter by Date */}
                         <Link to="/" className="filter-container">
                             <FaFilter color="#fff" size={10} />
                             <span className="filter-link">Filter by date</span>
@@ -142,22 +105,27 @@ const Navbar: React.FC = () => {
             </div>
 
             {/* Mobile Menu */}
-            {isMobile && isOpen && (
+            {isMobile && menuState.isOpen && (
                 <ul className="mobile-menu">
-                    <li><Link to="/" className="mobile-menu-link">Home</Link></li>
-                    <li><Link to="/about" className="mobile-menu-link">About</Link></li>
-                    <li><Link to="/services" className="mobile-menu-link">Services</Link></li>
-                    <li><Link to="/contact" className="mobile-menu-link">Contact</Link></li>
+                    <li><button className="mobile-menu-link" onClick={returnToHome}>Home</button></li>
+                    <li><button className="mobile-menu-link" onClick={() => toggleMenu("category")}>Categories</button></li>
+                    <li><button className="mobile-menu-link" onClick={() => toggleMenu("source")}>Sources</button></li>
+                    <li><button className="mobile-menu-link" onClick={() => toggleMenu("author")}>Authors</button></li>
                 </ul>
             )}
 
-            {/* Dynamic Menus */}
-            {categoryOpen && <UniqueSections categories={categories} view="category" onSelect={handleCategorySelect} />}
-            {sourceOpen && <UniqueSections categories={trendingNews} view="source" onSelect={handleSourceSelect} />}
-            {authorOpen && <UniqueSections categories={categories} view="author" onSelect={handleAuthorSelect} />}
+            {/* Dynamic Desktop Menus */}
+            {menuState.activeMenu === "category" && (
+                <UniqueSections categories={categories} view="category" onSelect={(item) => handleSelect(item, "category")} />
+            )}
+            {menuState.activeMenu === "source" && (
+                <UniqueSections categories={trendingNews} view="source" onSelect={(item) => handleSelect(item, "source")} />
+            )}
+            {menuState.activeMenu === "author" && (
+                <UniqueSections categories={categories} view="author" onSelect={(item) => handleSelect(item, "author")} />
+            )}
         </nav>
     );
 };
-
 
 export default Navbar;

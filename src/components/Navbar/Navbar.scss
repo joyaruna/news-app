@@ -100,10 +100,11 @@
         li {
             margin-top: 1rem;
             .mobile-menu-link {
-                text-decoration: none;
                 color: #FFF;
                 font-family: 'merriweather-bold';
                 font-size: .9rem;
+                background: none;
+                border: none;
             }
         }
     }

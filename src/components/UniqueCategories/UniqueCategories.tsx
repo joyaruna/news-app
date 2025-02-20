@@ -32,6 +32,7 @@ const UniqueSections: React.FC<UniqueSectionsProps> = ({ categories, view, onSel
 
     return (
         <>
+            <div className="custom-line"></div>
             {uniqueItems.length > 0 && (
                 <ul className="categories-menu">
                     {uniqueItems.map((item, index) => (

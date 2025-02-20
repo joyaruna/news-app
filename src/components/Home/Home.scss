@@ -5,29 +5,32 @@
     padding: .5rem 1rem;
     color: #080c67;
     align-items: baseline;
+
     .all-trending-news {
-        margin-right: 5rem;
-        .trending-news-container {
+        .news-card {
             display: flex;
             flex-direction: column;
             align-items: flex-start;
             margin-bottom: 1rem;
+
             .news-title {
                 font-family: 'opensans-bold';
                 font-size: 1.2rem;
                 margin-bottom: .5rem;
             }
+
             .author-name {
                 font-family: 'opensans-italic';
                 font-size: .7rem;
-                // margin: .5rem 0;
             }
+
             .news-description {
                 font-family: 'opensans-bolditalic';
                 font-size: .9rem;
                 color: red;
             }
-            .open-button {
+
+            .expand-button {
                 background-color: #fff;
                 border: 1px solid #080c67;
                 border-radius: 2px;
@@ -39,8 +42,11 @@
             }
         }
     }
+
     .articles-section {
         width: 45%;
+        margin-left: 5rem;
+
         .title-container {
             display: flex;
             align-items: center;
@@ -52,40 +58,12 @@
                 margin-left: .4rem;
             }
         }
+
         .all-trending-articles {
             border-radius: 20px;
             padding: .5rem .8rem;
             border: 1px solid #080c67;
-            .trending-article-container {
-                display: flex;
-                flex-direction: column;
-                align-items: flex-start;
-                margin-bottom: 1rem;
-                .article-title {
-                    font-family: 'opensans-bold';
-                    font-size: .8rem;
-                    margin-bottom: 1rem;
-                }
-                .author-name {
-                    font-family: 'opensans-italic';
-                    font-size: .6rem;
-                    margin: .5rem 0;
-                }
-                .news-description {
-                    font-family: 'opensans-italic';
-                    font-size: .7rem;
-                    color: red;
-                }
-                .more-button {
-                    background-color: #fff;
-                    border: none;
-                    color: #080c67;
-                    font-family: 'opensans-italic';
-                    cursor: pointer;
-                    font-size: .7rem;
-                    margin-left: auto;
-                }
-            }
+
         }
     }
 
@@ -98,34 +76,49 @@
     padding: .5rem 1rem;
     color: #080c67;
     align-items: baseline;
-    .all-trending-news {
-        .trending-news-container {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
+
+    .news-card {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        margin-bottom: 1rem;
+
+        .news-title {
+            font-family: 'opensans-bold';
+            font-size: 1.5rem;
             margin-bottom: 1rem;
-            .news-title {
-                font-family: 'opensans-bold';
-                font-size: 1.5rem;
-                margin-bottom: 1rem;
-            }
-            .author-name {
-                font-family: 'opensans-italic';
-                font-size: .7rem;
-                margin: .5rem 0;
-            }
-            .news-description {
-                font-family: 'opensans-bolditalic';
-                font-size: 1rem;
-                color: red;
-            }
         }
+
+        .author-name {
+            font-family: 'opensans-italic';
+            font-size: .7rem;
+        }
+
+        .news-description {
+            font-family: 'opensans-bolditalic';
+            font-size: 1rem;
+            color: red;
+        }
+
+        .expand-button {
+            background-color: #fff;
+            border: 1px solid #080c67;
+            border-radius: 2px;
+            margin-top: .5rem;
+            color: #080c67;
+            font-family: 'opensans-italic';
+            cursor: pointer;
+            font-size: .7rem;
+        }
+
     }
+
     .articles-section {
         display: flex;
         flex-direction: column;
         align-items: center;
         padding: 0 3rem;
+
         .title-container {
             display: flex;
             align-items: center;
@@ -141,27 +134,7 @@
             border-radius: 20px;
             padding: .5rem .8rem;
             border: 1px solid #080c67;
-            .trending-article-container {
-                display: flex;
-                flex-direction: column;
-                align-items: flex-start;
-                margin-bottom: 1rem;
-                .article-title {
-                    font-family: 'opensans-bold';
-                    font-size: .8rem;
-                    margin-bottom: 1rem;
-                }
-                .author-name {
-                    font-family: 'opensans-italic';
-                    font-size: .6rem;
-                    margin: .5rem 0;
-                }
-                .news-description {
-                    font-family: 'opensans-italic';
-                    font-size: .7rem;
-                    color: red;
-                }
-            }
+
         }
     }
 
