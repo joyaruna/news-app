@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaFilter } from "react-icons/fa";
 import { useScreenSize } from "../../utils/useScreenSize";
 import { motion } from "framer-motion";
 import "./Navbar.scss";
