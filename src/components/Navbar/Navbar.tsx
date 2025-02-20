@@ -5,7 +5,7 @@ import { useScreenSize } from "../../utils/useScreenSize";
 import { motion } from "framer-motion";
 import "./Navbar.scss";
 import { useAppDispatch, useTypedSelector } from "../../store";
-import { getCategories, getSources } from "../../reducers/NewsSlice";
+import { getCategories, getTrendingNews } from "../../reducers/NewsSlice";
 import UniqueSections from "../UniqueCategories/UniqueCategories";
 
 interface Category {
@@ -23,11 +23,13 @@ const Navbar: React.FC = () => {
     const [sourceOpen, setSourceOpen] = useState<boolean>(false);
     const [authorOpen, setAuthorOpen] = useState<boolean>(false);
     const { categories } = useTypedSelector((state) => state.news);
-    const source = useTypedSelector((state) => state.news.source);
-    // console.log('tthis is source', source)
+    const { trendingNews } = useTypedSelector((state) => state.news);
+
+    // console.log('tthis is source', trendingNews)
     const [filteredCategories, setFilteredCategories] = useState<Category[]>([]);
     const [filteredAuthors, setFilteredAuthors] = useState<Category[]>([]);
-    console.log(filteredCategories, filteredAuthors)
+    const [filteredSource, setFilteredSource] = useState<Category[]>([]);
+    console.log(filteredCategories, filteredAuthors, filteredSource)
 
 
     const viewCategories = () => {
@@ -62,17 +64,30 @@ const Navbar: React.FC = () => {
     };
 
     const handleAuthorSelect = (selectedItem: string) => {
-        console.log('clicked')
         const filteredItems = categories.filter(category => category.byline === selectedItem);
         setFilteredAuthors(filteredItems);
         navigate("/authors", { state: { filteredAuthorItems: filteredItems } });
         console.log("Filtered Items:", filteredItems);
     };
+    const handleSourceSelect = (selectedItem: string) => {
+        console.log("Clicked source:", selectedItem);    
+        const filteredItems = trendingNews.filter(category => {
+            const sourceName = typeof category.source === "object" ? category.source.name : category.source;
+            return sourceName === selectedItem;
+        });
+    
+        setFilteredSource(filteredItems);
+        navigate("/sources", { state: { filteredSourceItems: filteredItems } });
+    
+        console.log("Filtered Items:", filteredItems);
+    };
+    
 
 
     useEffect(() => {
         dispatch(getCategories());
-        dispatch(getSources());
+        dispatch(getTrendingNews());
+        // dispatch(getSources());
     }, [dispatch]);
 
     return (
@@ -138,7 +153,7 @@ const Navbar: React.FC = () => {
 
             {/* Dynamic Menus */}
             {categoryOpen && <UniqueSections categories={categories} view="category" onSelect={handleCategorySelect} />}
-            {sourceOpen && <UniqueSections categories={source} view="source" />}
+            {sourceOpen && <UniqueSections categories={trendingNews} view="source" onSelect={handleSourceSelect} />}
             {authorOpen && <UniqueSections categories={categories} view="author" onSelect={handleAuthorSelect} />}
         </nav>
     );
