@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaSearch, FaFilter } from "react-icons/fa";
+import { FaFilter } from "react-icons/fa";
 import { useScreenSize } from "../../utils/useScreenSize";
 import { motion } from "framer-motion";
 import "./Navbar.scss";
@@ -15,6 +15,7 @@ const Navbar: React.FC = () => {
     const isMobile = useScreenSize();
     const { categories, trendingNews } = useTypedSelector((state) => state.news);
     const [filteredItems, setFilteredItems] = useState<Category[]>([]);
+    console.log(filteredItems)
     const [menuState, setMenuState] = useState({
         isOpen: false,
         activeMenu: "",
@@ -88,12 +89,6 @@ const Navbar: React.FC = () => {
                             <li><button className="nav-link" onClick={() => toggleMenu("source")}>Sources</button></li>
                             <li><button className="nav-link-last" onClick={() => toggleMenu("author")}>Authors</button></li>
                         </ul>
-
-                        {/* Search Box */}
-                        <div className="search-container">
-                            <FaSearch color="#fff" size={12} />
-                            <input id="search" type="text" className="search-box" placeholder="Search by keyword" />
-                        </div>
 
                         {/* Filter by Date */}
                         <Link to="/" className="filter-container">

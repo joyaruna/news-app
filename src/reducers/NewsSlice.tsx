@@ -73,7 +73,7 @@ export const getSources = createAsyncThunk<
         const apiKey = '5UamDPBD026PrbWJXdzlCdUXSXKYa9IzjJ57AEaa'; // API Key
         try {
             const response = await axios.get(`https://api.thenewsapi.com/v1/news/top?api_token=${apiKey}`);
-            // console.log(response.data.data)
+            console.log(response.data.data, 'nnnnnn')
             return response.data.data;
         } catch (error) {
             let errorMessage = 'Something went wrong';

@@ -3,26 +3,37 @@ import Footer from '../../components/Footer/Footer';
 import { useLocation } from 'react-router-dom';
 import { Category } from '../../utils/sourceTypes';
 import "./NewsBySources.scss";
+import { useState } from 'react';
+import SearchBar from '../../components/SearchBar/SearchBar';
 
 
 function NewsBySources() {
     const location = useLocation();
     const filteredSourceItems: Category[] = location.state?.filteredSourceItems || [];
-
+    const [searchQuery, setSearchQuery] = useState("");
+    // Filter news based on search input
+    const filteredNews = filteredSourceItems.filter((category) =>
+        category.title?.toLowerCase().includes(searchQuery.toLowerCase())
+    );
     const selectedSource = filteredSourceItems.length > 0
         ? typeof filteredSourceItems[0].source === "object"
-            ? filteredSourceItems[0].source.name // Use name if source is an object
+            ? filteredSourceItems[0].source.name
             : filteredSourceItems[0].source
         : "Unknown Source";
 
     return (
         <div className='main-container'>
             <Navbar />
+            {/* Search Bar */}
+            <SearchBar searchQuery={searchQuery} onSearchChange={setSearchQuery} />
             <h3 className="category-name">Stories from {selectedSource}</h3>
             <div className="custom-line"></div>
-            {filteredSourceItems.map((category: Category, index: number) => (
-                <FilteredCategory key={index} category={category} />
-            ))}
+            {/* Display filtered results */}
+            {filteredNews.length > 0 ? (
+                filteredNews.map((category, index) => <FilteredCategory key={index} category={category} />)
+            ) : (
+                <p>No matching news found.</p>
+            )}
             <Footer />
         </div>
     );

@@ -1,35 +1,104 @@
-.home-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+.home-main-container {
     padding: .5rem 1rem;
     color: #080c67;
-    align-items: baseline;
-
-    .all-trending-news {
+    .home-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: baseline;
+    
+        .all-trending-news {
+            .news-card {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                margin-bottom: 1rem;
+    
+                .news-title {
+                    font-family: 'opensans-bold';
+                    font-size: 1.2rem;
+                    margin-bottom: .5rem;
+                }
+    
+                .author-name {
+                    font-family: 'opensans-italic';
+                    font-size: .7rem;
+                }
+    
+                .news-description {
+                    font-family: 'opensans-bolditalic';
+                    font-size: .9rem;
+                    color: red;
+                }
+    
+                .expand-button {
+                    background-color: #fff;
+                    border: 1px solid #080c67;
+                    border-radius: 2px;
+                    margin-top: .5rem;
+                    color: #080c67;
+                    font-family: 'opensans-italic';
+                    cursor: pointer;
+                    font-size: .7rem;
+                }
+            }
+        }
+    
+        .articles-section {
+            width: 45%;
+            margin-left: 5rem;
+    
+            .title-container {
+                display: flex;
+                align-items: center;
+                margin-bottom: .4rem;
+    
+                .main-title {
+                    font-family: 'opensans-bolditalic';
+                    font-size: 1rem;
+                    margin-left: .4rem;
+                }
+            }
+    
+            .all-trending-articles {
+                border-radius: 20px;
+                padding: .5rem .8rem;
+                border: 1px solid #080c67;
+    
+            }
+        }
+    
+    }
+    .home-mobile-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        color: #080c67;
+        align-items: baseline;
+    
         .news-card {
             display: flex;
             flex-direction: column;
             align-items: flex-start;
             margin-bottom: 1rem;
-
+    
             .news-title {
                 font-family: 'opensans-bold';
-                font-size: 1.2rem;
-                margin-bottom: .5rem;
+                font-size: 1.5rem;
+                margin-bottom: 1rem;
             }
-
+    
             .author-name {
                 font-family: 'opensans-italic';
                 font-size: .7rem;
             }
-
+    
             .news-description {
                 font-family: 'opensans-bolditalic';
-                font-size: .9rem;
+                font-size: 1rem;
                 color: red;
             }
-
+    
             .expand-button {
                 background-color: #fff;
                 border: 1px solid #080c67;
@@ -40,102 +109,35 @@
                 cursor: pointer;
                 font-size: .7rem;
             }
+    
         }
-    }
-
-    .articles-section {
-        width: 45%;
-        margin-left: 5rem;
-
-        .title-container {
+    
+        .articles-section {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            margin-bottom: .4rem;
-
-            .main-title {
-                font-family: 'opensans-bolditalic';
-                font-size: 1rem;
-                margin-left: .4rem;
+            padding: 0 3rem;
+    
+            .title-container {
+                display: flex;
+                align-items: center;
+                margin-bottom: .4rem;
+    
+                .main-title {
+                    font-family: 'opensans-bolditalic';
+                    font-size: 1rem;
+                    margin-left: .4rem;
+                }
+            }
+            .all-trending-articles {
+                border-radius: 20px;
+                padding: .5rem .8rem;
+                border: 1px solid #080c67;
+    
             }
         }
-
-        .all-trending-articles {
-            border-radius: 20px;
-            padding: .5rem .8rem;
-            border: 1px solid #080c67;
-
-        }
+    
     }
-
 }
 
-.home-mobile-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: .5rem 1rem;
-    color: #080c67;
-    align-items: baseline;
 
-    .news-card {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        margin-bottom: 1rem;
-
-        .news-title {
-            font-family: 'opensans-bold';
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .author-name {
-            font-family: 'opensans-italic';
-            font-size: .7rem;
-        }
-
-        .news-description {
-            font-family: 'opensans-bolditalic';
-            font-size: 1rem;
-            color: red;
-        }
-
-        .expand-button {
-            background-color: #fff;
-            border: 1px solid #080c67;
-            border-radius: 2px;
-            margin-top: .5rem;
-            color: #080c67;
-            font-family: 'opensans-italic';
-            cursor: pointer;
-            font-size: .7rem;
-        }
-
-    }
-
-    .articles-section {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 0 3rem;
-
-        .title-container {
-            display: flex;
-            align-items: center;
-            margin-bottom: .4rem;
-
-            .main-title {
-                font-family: 'opensans-bolditalic';
-                font-size: 1rem;
-                margin-left: .4rem;
-            }
-        }
-        .all-trending-articles {
-            border-radius: 20px;
-            padding: .5rem .8rem;
-            border: 1px solid #080c67;
-
-        }
-    }
-
-}
