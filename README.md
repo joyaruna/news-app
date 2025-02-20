@@ -1,8 +1,11 @@
 # The news weebsite app is called NewsPulse
 
 This project was done by Joy Aruna
+
 This project was done using React.js and Typescript
+
 React-router was used for routing
+
 Redux-toolkit and axios was used for api integration
 
 ## Steps to run(docker containerization)
